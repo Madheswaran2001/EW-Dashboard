@@ -43,14 +43,25 @@ ESG_RATIONALE = {
     ),
 }
 
-# ── ESG Trend Data 2022–2026 ──────────────────────────────────────────────────
-YEARS = [2022, 2023, 2024, 2025, 2026]
+# ── ESG Trend Data — Founded Q1 2024, tracked quarterly to March 2026 ─────────
+# ElectraWireless was founded in 2024. Trend data starts at founding (Q1 2024)
+# and runs through six reporting periods to the current dashboard date (Mar 2026).
+# Competitor data covers the same window for fair comparison.
+# Period labels: Q1 2024 (founding) → Q3 2024 → Q1 2025 → Q3 2025 → Q1 2026 → Mar 2026
+YEARS = ["Q1 2024\n(Founded)", "Q3 2024", "Q1 2025", "Q3 2025", "Q1 2026", "Mar 2026"]
 
 ESG_TRENDS = {
-    "ElectraWireless": {"E": [52, 60, 68, 75, 82], "S": [48, 58, 66, 72, 78], "G": [40, 50, 58, 66, 74]},
-    "WiTricity":       {"E": [55, 57, 58, 60, 61], "S": [50, 51, 52, 54, 55], "G": [62, 63, 63, 64, 65]},
-    "Ossia":           {"E": [50, 52, 53, 54, 55], "S": [46, 47, 48, 49, 50], "G": [57, 58, 59, 59, 60]},
-    "Traditional":     {"E": [42, 40, 39, 38, 38], "S": [47, 46, 46, 45, 45], "G": [52, 51, 51, 50, 50]},
+    # EW starts from zero-base at founding and builds rapidly as team, product,
+    # and governance structures are established across each quarter.
+    "ElectraWireless": {
+        "E": [42, 55, 63, 71, 77, 82],   # Environmental: R&D → Phase 1 launch → CO2 data published
+        "S":  [35, 48, 58, 66, 72, 78],  # Social: team hired → Elly beta → university partnerships
+        "G":  [28, 40, 52, 60, 68, 74],  # Governance: US registration → funding disclosure → IPO roadmap
+    },
+    # Established competitors move slowly — they were already operating before 2024
+    "WiTricity":   {"E": [58, 59, 59, 60, 60, 61], "S": [53, 53, 54, 54, 55, 55], "G": [63, 63, 64, 64, 64, 65]},
+    "Ossia":       {"E": [53, 53, 54, 54, 55, 55], "S": [48, 48, 49, 49, 50, 50], "G": [58, 58, 59, 59, 60, 60]},
+    "Traditional": {"E": [40, 40, 39, 39, 38, 38], "S": [46, 46, 45, 45, 45, 45], "G": [51, 51, 51, 50, 50, 50]},
 }
 
 # ── Materiality Map ───────────────────────────────────────────────────────────
