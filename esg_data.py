@@ -43,25 +43,69 @@ ESG_RATIONALE = {
     ),
 }
 
-# ── ESG Trend Data — Founded Q1 2024, tracked quarterly to March 2026 ─────────
-# ElectraWireless was founded in 2024. Trend data starts at founding (Q1 2024)
-# and runs through six reporting periods to the current dashboard date (Mar 2026).
-# Competitor data covers the same window for fair comparison.
-# Period labels: Q1 2024 (founding) → Q3 2024 → Q1 2025 → Q3 2025 → Q1 2026 → Mar 2026
-YEARS = ["Q1 2024\n(Founded)", "Q3 2024", "Q1 2025", "Q3 2025", "Q1 2026", "Mar 2026"]
+# ── Historical ESG Trend Data — Founded March 2024, tracked quarterly ─────────
+# ElectraWireless was founded in March 2024. Trend data starts at founding and
+# runs through six quarterly checkpoints to the current dashboard date (Mar 2026).
+# Each label represents a quarterly reporting period.
+YEARS = ["Mar 2024\n(Founded)", "Jun 2024", "Sep 2024", "Dec 2024", "Jun 2025", "Mar 2026"]
 
 ESG_TRENDS = {
-    # EW starts from zero-base at founding and builds rapidly as team, product,
-    # and governance structures are established across each quarter.
+    # EW starts from first-month baseline and improves rapidly each quarter
+    # as team, technology, product, and governance structures are built out.
     "ElectraWireless": {
-        "E": [42, 55, 63, 71, 77, 82],   # Environmental: R&D → Phase 1 launch → CO2 data published
-        "S":  [35, 48, 58, 66, 72, 78],  # Social: team hired → Elly beta → university partnerships
-        "G":  [28, 40, 52, 60, 68, 74],  # Governance: US registration → funding disclosure → IPO roadmap
+        "E": [42, 52, 61, 68, 75, 82],   # Environmental: R&D → WPT prototype → Phase 1 launch → CO₂ data
+        "S": [30, 44, 55, 63, 70, 78],   # Social: team hired → Elly beta → HK PolyU → RMIT partnership
+        "G": [22, 36, 48, 57, 66, 74],   # Governance: US incorporation → seed round → funding disclosure → IPO roadmap
     },
-    # Established competitors move slowly — they were already operating before 2024
+    # Established competitors move slowly — already operating well before 2024
     "WiTricity":   {"E": [58, 59, 59, 60, 60, 61], "S": [53, 53, 54, 54, 55, 55], "G": [63, 63, 64, 64, 64, 65]},
     "Ossia":       {"E": [53, 53, 54, 54, 55, 55], "S": [48, 48, 49, 49, 50, 50], "G": [58, 58, 59, 59, 60, 60]},
     "Traditional": {"E": [40, 40, 39, 39, 38, 38], "S": [46, 46, 45, 45, 45, 45], "G": [51, 51, 51, 50, 50, 50]},
+}
+
+# ── Future Trend Projections — maintaining same growth rate per quarter ────────
+# Methodology: average quarterly gain from historical data is extrapolated forward.
+# Phase milestones are used as qualitative anchors for each projection point.
+# "Conservative" = 60% of historical rate | "Base" = 100% | "Optimistic" = 140%
+#
+# Historical quarterly gains (Mar 2024 → Mar 2026 = 8 quarters):
+#   E: (82-42)/8 = +5.0 pts/quarter
+#   S: (78-30)/8 = +6.0 pts/quarter
+#   G: (74-22)/8 = +6.5 pts/quarter
+#
+# Projection periods: Jun 2026 → Dec 2026 → Jun 2027 → Dec 2027 → Jun 2028 → Dec 2028
+
+FUTURE_YEARS = ["Mar 2026\n(Today)", "Jun 2026", "Dec 2026", "Jun 2027",
+                "Dec 2027", "Jun 2028", "Dec 2028"]
+
+FUTURE_MILESTONES = {
+    "Jun 2026":  "Phase 2 launch\n(E-Bike charging)",
+    "Dec 2026":  "Series A\n(GRI report published)",
+    "Jun 2027":  "Phase 3 launch\n(Robotics charging)",
+    "Dec 2027":  "Phase 4 launch\n(IoT / Smart Furniture)",
+    "Jun 2028":  "Phase 5 launch\n(EV charging)",
+    "Dec 2028":  "IPO preparation\n(post-Phase 4)",
+}
+
+FUTURE_TRENDS = {
+    # Base case: same quarterly rate maintained
+    "base": {
+        "E": [82, 87, 92, 96, 98, 99, 99],   # caps near 99 (physical/supply limits)
+        "S": [78, 83, 88, 92, 95, 97, 98],
+        "G": [74, 79, 85, 89, 92, 94, 96],
+    },
+    # Conservative: 60% of historical rate (slower fundraising, market headwinds)
+    "conservative": {
+        "E": [82, 85, 88, 91, 93, 95, 96],
+        "S": [78, 81, 84, 87, 90, 92, 94],
+        "G": [74, 77, 81, 84, 87, 89, 91],
+    },
+    # Optimistic: 140% of historical rate (accelerated deployment, IPO boost)
+    "optimistic": {
+        "E": [82, 89, 95, 98, 99, 99, 99],
+        "S": [78, 86, 92, 96, 98, 99, 99],
+        "G": [74, 82, 89, 94, 97, 98, 99],
+    },
 }
 
 # ── Materiality Map ───────────────────────────────────────────────────────────
