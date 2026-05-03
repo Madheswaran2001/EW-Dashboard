@@ -8,6 +8,7 @@ import plotly.graph_objects as go
 import pandas as pd
 from esg_data import (
     ESG_SCORES, ESG_RATIONALE, ESG_TRENDS, YEARS,
+    FUTURE_TRENDS, FUTURE_YEARS, FUTURE_MILESTONES,
     MATERIALITY, DISCLOSURE, KPI, COMPETITOR_FEATURES,
     COMP_COLORS, PILLAR_COLORS,
 )
@@ -85,6 +86,7 @@ with st.sidebar:
         "📋 Disclosure Analysis",
         "🎯 KPI Performance",
         "🏆 Competitor Comparison",
+        "🔭 Future Trends",
     ], label_visibility="collapsed")
     st.markdown("---")
     st.caption("Seed Stage · US Registered")
@@ -119,9 +121,9 @@ if section == "⚡ Overview":
     """, unsafe_allow_html=True)
 
     c1, c2, c3 = st.columns(3)
-    with c1: st.metric("🌿 Environmental", f"{ew['E']} / 100", "+40 pts since founding (Q1 2024)")
-    with c2: st.metric("🤝 Social",        f"{ew['S']} / 100", "+43 pts since founding (Q1 2024)")
-    with c3: st.metric("🏛️ Governance",   f"{ew['G']} / 100", "+46 pts since founding (Q1 2024)")
+    with c1: st.metric("🌿 Environmental", f"{ew['E']} / 100", "+40 pts since founding (Mar 2024)")
+    with c2: st.metric("🤝 Social",        f"{ew['S']} / 100", "+48 pts since founding (Mar 2024)")
+    with c3: st.metric("🏛️ Governance",   f"{ew['G']} / 100", "+52 pts since founding (Mar 2024)")
 
     st.markdown("---")
     st.markdown('<div class="section-title">Pillar Gauges</div>', unsafe_allow_html=True)
@@ -244,10 +246,10 @@ elif section == "🗺️ Materiality Map":
 # TREND LINES
 # ═════════════════════════════════════════════════════════════════════════════
 elif section == "📈 Trend Lines":
-    st.markdown('<div class="section-title">ESG Score Trend Lines — Q1 2024 (Founded) to March 2026</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">ESG Score Trend Lines — March 2024 (Founded) to March 2026</div>', unsafe_allow_html=True)
     st.markdown(
-        '<div class="section-sub">ElectraWireless was founded in Q1 2024. These trend lines track ESG score growth '
-        'across six reporting periods from founding to today. Competitor lines cover the same window for fair comparison.</div>',
+        '<div class="section-sub">ElectraWireless was founded in March 2024. These trend lines track ESG score growth '
+        'across six quarterly checkpoints from founding to today. Competitor lines cover the same window for fair comparison.</div>',
         unsafe_allow_html=True)
 
     selected_pillars = st.multiselect(
@@ -268,7 +270,7 @@ elif section == "📈 Trend Lines":
                 fill="tozeroy", fillcolor=hex_rgba(pcolor,0.10),
             ))
     fig_combined.update_layout(**bl(height=340,margin=dict(l=20,r=20,t=50,b=80),
-        title=dict(text="ElectraWireless — All Pillars (Q1 2024 → Mar 2026)",font=dict(size=15,color="#4B0082")),
+        title=dict(text="ElectraWireless — All Pillars (Mar 2024 → Mar 2026)",font=dict(size=15,color="#4B0082")),
         xaxis=dict(tickfont=dict(size=10), **GRID),
         yaxis=dict(range=[0,100],title="Score /100",**GRID),
         legend=dict(orientation="h",y=-0.28)))
@@ -293,7 +295,7 @@ elif section == "📈 Trend Lines":
                 fig.add_trace(go.Scatter(x=YEARS,y=ESG_TRENDS[comp][pillar],name=comp,
                     mode="lines+markers",line=dict(color=col,width=lw,dash=dash),marker=dict(size=ms)))
             fig.update_layout(**bl(height=320,margin=dict(l=20,r=20,t=50,b=90),
-                title=dict(text=f"{plabel} Score — EW vs. Competitors (since founding)",
+                title=dict(text=f"{plabel} Score — EW vs. Competitors (since founding Mar 2024)",
                            font=dict(size=14,color="#4B0082")),
                 xaxis=dict(tickfont=dict(size=10),**GRID),
                 yaxis=dict(range=[20,100],title="Score /100",**GRID),
@@ -302,9 +304,9 @@ elif section == "📈 Trend Lines":
 
     st.markdown("---")
     c1, c2, c3 = st.columns(3)
-    with c1: st.success("**+40pts Environmental** (42 → 82)\n\nQ1 2024 to March 2026. Driven by CO₂ data quantification, WPT efficiency milestones, and university partnerships.")
-    with c2: st.info("**+43pts Social** (35 → 78)\n\nQ1 2024 to March 2026. Elly AI health launch, 35+ multinational hires, youth innovation competitions across 3 continents.")
-    with c3: st.warning("**+46pts Governance** (28 → 74)\n\nQ1 2024 to March 2026. US company registration, seed funding disclosure, IPO roadmap published, AI ethics framework built.")
+    with c1: st.success("**+40pts Environmental** (42 → 82)\n\nMar 2024 to Mar 2026. Driven by CO₂ data quantification, WPT efficiency milestones, and university partnerships.")
+    with c2: st.info("**+48pts Social** (30 → 78)\n\nMar 2024 to Mar 2026. Elly AI health launch, 35+ multinational hires, youth innovation competitions across 3 continents.")
+    with c3: st.warning("**+52pts Governance** (22 → 74)\n\nMar 2024 to Mar 2026. US incorporation, seed funding disclosure, IPO roadmap published, AI ethics framework built.")
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -746,7 +748,253 @@ elif section == "🏆 Competitor Comparison":
                 </div>""", unsafe_allow_html=True)
 
 
-# ── Footer ────────────────────────────────────────────────────────────────────
+# ═════════════════════════════════════════════════════════════════════════════
+# FUTURE TRENDS
+# ═════════════════════════════════════════════════════════════════════════════
+elif section == "🔭 Future Trends":
+    st.markdown('<div class="section-title">Future ESG Score Projections — 2026 to 2028</div>',
+                unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-sub">'
+        'Projections assume ElectraWireless maintains its quarterly ESG improvement rate observed from '
+        'founding (March 2024) to today (March 2026). Three scenarios are shown: Base Case (same rate), '
+        'Conservative (60% of rate), and Optimistic (140% of rate). Phase deployment milestones are '
+        'marked as key growth drivers.'
+        '</div>',
+        unsafe_allow_html=True)
+
+    # ── Scenario selector ─────────────────────────────────────────────────────
+    scenario = st.radio(
+        "Select projection scenario:",
+        options=["All Three Scenarios", "Base Case Only", "Conservative Only", "Optimistic Only"],
+        horizontal=True,
+    )
+
+    scenario_map = {
+        "All Three Scenarios": ["base", "conservative", "optimistic"],
+        "Base Case Only":      ["base"],
+        "Conservative Only":   ["conservative"],
+        "Optimistic Only":     ["optimistic"],
+    }
+    show_scenarios = scenario_map[scenario]
+
+    scenario_styles = {
+        "base":         ("#4B0082", "solid",  3.0, "Base Case"),
+        "conservative": ("#F59E0B", "dot",    2.0, "Conservative"),
+        "optimistic":   ("#22C55E", "dash",   2.0, "Optimistic"),
+    }
+
+    pillar_info = [
+        ("E", "#22C55E", "Environmental", "42 → 82 (+40 pts in 8 quarters = +5.0 pts/quarter)"),
+        ("S", "#3B82F6", "Social",        "30 → 78 (+48 pts in 8 quarters = +6.0 pts/quarter)"),
+        ("G", "#A855F7", "Governance",    "22 → 74 (+52 pts in 8 quarters = +6.5 pts/quarter)"),
+    ]
+
+    # ── Combined all-pillar future chart ──────────────────────────────────────
+    st.markdown("#### Combined ESG Score Projection")
+    fig_all = go.Figure()
+
+    # Shade the "today → future" region
+    fig_all.add_vrect(
+        x0="Mar 2026\n(Today)", x1="Dec 2028",
+        fillcolor="rgba(75,0,130,0.04)", line_width=0,
+        annotation_text="Projection Period →",
+        annotation_position="top left",
+        annotation_font=dict(size=10, color="#9CA3AF"),
+    )
+
+    for p, pcolor, plabel, _ in pillar_info:
+        for sc in show_scenarios:
+            col, dash, lw, sc_label = scenario_styles[sc]
+            # Use pillar colour for line, scenario dash style
+            line_color = pcolor if sc == "base" else (
+                "#F59E0B" if sc == "conservative" else "#16A34A"
+            )
+            name = f"{plabel} — {sc_label}" if len(show_scenarios) > 1 else plabel
+            fig_all.add_trace(go.Scatter(
+                x=FUTURE_YEARS,
+                y=FUTURE_TRENDS[sc][p],
+                name=name,
+                mode="lines+markers",
+                line=dict(color=line_color, width=lw, dash=dash),
+                marker=dict(size=7 if sc == "base" else 5),
+                fill="tozeroy" if (sc == "base" and p == "E") else None,
+                fillcolor="rgba(34,197,94,0.05)" if (sc == "base" and p == "E") else None,
+                hovertemplate=f"<b>{name}</b><br>%{{x}}<br>Score: %{{y}}/100<extra></extra>",
+            ))
+
+    # Add milestone annotations
+    milestone_x = {
+        "Jun 2026":  0, "Dec 2026": 0, "Jun 2027": 0,
+        "Dec 2027":  0, "Jun 2028": 0, "Dec 2028": 0,
+    }
+    for i, (period, label) in enumerate(FUTURE_MILESTONES.items()):
+        fig_all.add_annotation(
+            x=period, y=102,
+            text=label.replace("\n", "<br>"),
+            showarrow=True, arrowhead=2, arrowsize=0.8,
+            arrowcolor="#C4B5D8", ax=0, ay=-36,
+            font=dict(size=8, color="#6B7280"),
+            align="center",
+        )
+
+    fig_all.add_shape(
+        type="line", x0="Mar 2026\n(Today)", x1="Mar 2026\n(Today)",
+        y0=0, y1=100,
+        line=dict(color="#4B0082", width=1.5, dash="dashdot"),
+    )
+    fig_all.add_annotation(
+        x="Mar 2026\n(Today)", y=50,
+        text="TODAY", showarrow=False,
+        font=dict(size=9, color="#4B0082", family="Arial"),
+        textangle=-90, xshift=-10,
+    )
+
+    fig_all.update_layout(**bl(
+        height=480, margin=dict(l=20, r=20, t=80, b=80),
+        title=dict(
+            text="ElectraWireless ESG Score Projection — All Pillars (2026–2028)",
+            font=dict(size=14, color="#4B0082"),
+        ),
+        xaxis=dict(tickfont=dict(size=9), **GRID),
+        yaxis=dict(range=[0, 108], title="Score /100", **GRID),
+        legend=dict(orientation="h", y=-0.22, font=dict(size=10)),
+    ))
+    st.plotly_chart(fig_all, use_container_width=True)
+
+    # ── Per-pillar projection charts ──────────────────────────────────────────
+    st.markdown("---")
+    st.markdown("#### Pillar-by-Pillar Projections")
+
+    col1, col2, col3 = st.columns(3)
+    for col_widget, (p, pcolor, plabel, rate_note) in zip([col1, col2, col3], pillar_info):
+        with col_widget:
+            fig_p = go.Figure()
+
+            # Historical data as solid context line
+            fig_p.add_trace(go.Scatter(
+                x=YEARS,
+                y=ESG_TRENDS["ElectraWireless"][p],
+                name="Historical",
+                mode="lines+markers",
+                line=dict(color=pcolor, width=2.5, dash="solid"),
+                marker=dict(size=6),
+                hovertemplate="<b>Historical</b><br>%{x}<br>Score: %{y}/100<extra></extra>",
+            ))
+
+            # Bridge: last historical point to first future point
+            for sc in show_scenarios:
+                _, dash, lw, sc_label = scenario_styles[sc]
+                sc_color = pcolor if sc == "base" else (
+                    "#F59E0B" if sc == "conservative" else "#16A34A"
+                )
+                # Connect from last historical (Mar 2026) into future
+                bridge_x = ["Mar 2026"] + FUTURE_YEARS[1:]
+                bridge_y = [ESG_TRENDS["ElectraWireless"][p][-1]] + FUTURE_TRENDS[sc][p][1:]
+                fig_p.add_trace(go.Scatter(
+                    x=bridge_x,
+                    y=bridge_y,
+                    name=sc_label,
+                    mode="lines+markers",
+                    line=dict(color=sc_color, width=lw, dash=dash),
+                    marker=dict(size=5),
+                    hovertemplate=f"<b>{sc_label}</b><br>%{{x}}<br>Score: %{{y}}/100<extra></extra>",
+                ))
+
+            fig_p.add_shape(
+                type="line", x0="Mar 2026", x1="Mar 2026",
+                y0=0, y1=100,
+                line=dict(color="#9CA3AF", width=1, dash="dashdot"),
+            )
+
+            fig_p.update_layout(**bl(
+                height=300, margin=dict(l=20, r=10, t=50, b=60),
+                title=dict(
+                    text=f"{plabel}",
+                    font=dict(size=13, color=pcolor),
+                ),
+                xaxis=dict(tickfont=dict(size=8), tickangle=-30, **GRID),
+                yaxis=dict(range=[0, 105], title="Score", tickfont=dict(size=9), **GRID),
+                legend=dict(orientation="h", y=-0.30, font=dict(size=9)),
+            ))
+            st.plotly_chart(fig_p, use_container_width=True)
+            st.caption(f"Historical rate: {rate_note}")
+
+    # ── Projection summary table ──────────────────────────────────────────────
+    st.markdown("---")
+    st.markdown("#### Projected Scores by 2028 (All Scenarios)")
+
+    proj_rows = []
+    for p, _, plabel, _ in pillar_info:
+        proj_rows.append({
+            "Pillar":       plabel,
+            "Today (Mar 2026)":    ESG_TRENDS["ElectraWireless"][p][-1],
+            "Conservative (Dec 2028)": FUTURE_TRENDS["conservative"][p][-1],
+            "Base Case (Dec 2028)":    FUTURE_TRENDS["base"][p][-1],
+            "Optimistic (Dec 2028)":   FUTURE_TRENDS["optimistic"][p][-1],
+        })
+    # Overall row
+    def avg(scenario, field=None):
+        vals = [FUTURE_TRENDS[scenario][p][-1] for p, _, _, _ in pillar_info]
+        return round(sum(vals) / len(vals))
+    proj_rows.append({
+        "Pillar":       "Overall ESG",
+        "Today (Mar 2026)":    ESG_SCORES["ElectraWireless"]["Total"],
+        "Conservative (Dec 2028)": avg("conservative"),
+        "Base Case (Dec 2028)":    avg("base"),
+        "Optimistic (Dec 2028)":   avg("optimistic"),
+    })
+
+    import pandas as _pd
+    st.dataframe(
+        _pd.DataFrame(proj_rows),
+        use_container_width=True,
+        hide_index=True,
+        column_config={
+            "Pillar":                  st.column_config.TextColumn("Pillar",          width="small"),
+            "Today (Mar 2026)":        st.column_config.NumberColumn("Today",         width="small",  format="%d /100"),
+            "Conservative (Dec 2028)": st.column_config.NumberColumn("Conservative",  width="medium", format="%d /100"),
+            "Base Case (Dec 2028)":    st.column_config.NumberColumn("Base Case",     width="medium", format="%d /100"),
+            "Optimistic (Dec 2028)":   st.column_config.NumberColumn("Optimistic",    width="medium", format="%d /100"),
+        },
+    )
+
+    # ── Methodology expander ──────────────────────────────────────────────────
+    st.markdown("---")
+    with st.expander("ℹ️ Projection Methodology — click to read"):
+        st.markdown("""
+**How projections are calculated:**
+
+ElectraWireless has been operational since **March 2024**. Over 8 quarterly periods (Mar 2024 → Mar 2026), the average quarterly ESG score improvement was:
+
+| Pillar | Start (Mar 2024) | Today (Mar 2026) | Total Gain | Avg Gain / Quarter |
+|---|---|---|---|---|
+| Environmental | 42 | 82 | +40 pts | **+5.0 pts/qtr** |
+| Social | 30 | 78 | +48 pts | **+6.0 pts/qtr** |
+| Governance | 22 | 74 | +52 pts | **+6.5 pts/qtr** |
+
+These rates are extrapolated forward across 10 future quarters (Jun 2026 → Dec 2028), capped at 99/100 to reflect practical limits.
+
+**Three scenarios:**
+- 🟣 **Base Case** — same quarterly rate continues (same fundraising pace, same deployment speed)
+- 🟡 **Conservative** — 60% of historical rate (slower capital deployment, market headwinds)
+- 🟢 **Optimistic** — 140% of historical rate (Series A accelerates disclosure; Phase 3–5 deployments multiply environmental impact)
+
+**Phase milestone anchors used as qualitative checks:**
+- **Jun 2026** — Phase 2 (E-Bike charging) launched → E score gets boost from multiplied CO₂ savings
+- **Dec 2026** — Series A closed → formal GRI/SASB report published → G score jumps
+- **Jun 2027** — Phase 3 (Robotics) → further E boost
+- **Dec 2027** — Phase 4 (IoT/Furniture) → S score increases via broader health/accessibility reach
+- **Jun 2028** — Phase 5 (EV charging) → largest single E multiplier
+- **Dec 2028** — IPO preparation → highest governance disclosure requirements met
+        """)
+
+    st.markdown("")
+    st.info(
+        "📌 **Stakeholder note:** These projections are internal estimates based on ElectraWireless's own "
+        "historical growth rate. They are not guaranteed forecasts. Actual scores will depend on deployment "
+        "pace, fundraising outcomes, and third-party audit timelines."
+    )
 st.markdown("---")
 st.caption(
     "ElectraWireless ESG Dashboard · March 2026 · "
