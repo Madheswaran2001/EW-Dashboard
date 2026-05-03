@@ -408,7 +408,24 @@ elif section == "🎯 KPI Performance":
     df = pd.DataFrame(KPI)
     companies = ["ElectraWireless","WiTricity","Ossia","Resonant Link","Industry Avg"]
 
-    # ── KPI Radar ────────────────────────────────────────────────────────────
+    # ── KPI Radar ─────────────────────────────────────────────────────────────
+    # HONEST SCORING: each raw value is mapped against a realistic industry
+    # CEILING (not against peer-group max) so a company only reaches 100 when
+    # it truly achieves best-practice, not merely because it beat this small
+    # peer group. ElectraWireless will score high but NOT 100 on every axis,
+    # giving stakeholders an accurate and defensible picture.
+    #
+    # Ceiling rationale (documented for stakeholder Q&A):
+    #   CO₂ Reduction       ceiling = 20,000 t  (large industrial WPT target)
+    #   E-Waste Prevented   ceiling = 20,000 t  (full cable elimination target)
+    #   Energy Efficiency   ceiling = 100 %      (theoretical maximum)
+    #   Safety Reduction    ceiling = 100 %      (full hazard elimination)
+    #   Green Mkt Coverage  ceiling = 100 %      (all markets green-certified)
+    #   Team Diversity      ceiling = 100 %      (fully diverse workforce)
+    #   Disclosure Score    ceiling = 100 /100   (full GRI/SASB compliance)
+    #   AI Ethics Controls  ceiling = 100 %      (all controls active)
+    #   Community Programs  ceiling =   8        (top-tier startup benchmark)
+
     RADAR_LABELS = [
         "CO₂ Reduction\n(tons/yr)", "E-Waste Prevented\n(tons/yr)",
         "Energy Efficiency\n(%)",   "Safety Incident\nReduction (%)",
@@ -416,40 +433,88 @@ elif section == "🎯 KPI Performance":
         "Disclosure\nScore (/100)", "AI Ethics\nControls (%)",
         "Community\nPrograms (#)",
     ]
-    norm_data = {}
+
+    # Ceilings aligned to each KPI row order in esg_data.KPI["KPI"]
+    CEILINGS = [20000, 20000, 100, 100, 100, 100, 100, 100, 8]
+
+    def absolute_score(raw, ceiling):
+        """Map raw value to 0–100 against an absolute ceiling."""
+        return round(min(raw / ceiling * 100, 100))
+
+    abs_data = {}
     for comp in companies:
-        nv = []
-        for i in range(len(df)):
-            rv = [df[c].iloc[i] for c in companies]
-            mn, mx = min(rv), max(rv)
-            v = df[comp].iloc[i]
-            nv.append(round((v-mn)/(mx-mn)*100) if mx!=mn else 50)
-        norm_data[comp] = nv
+        abs_data[comp] = [
+            absolute_score(df[comp].iloc[i], CEILINGS[i])
+            for i in range(len(df))
+        ]
 
     fig_radar = go.Figure()
     for comp in companies:
-        nv = norm_data[comp]; is_ew = comp=="ElectraWireless"
+        av = abs_data[comp]; is_ew = comp == "ElectraWireless"
         fig_radar.add_trace(go.Scatterpolar(
-            r=nv+[nv[0]], theta=RADAR_LABELS+[RADAR_LABELS[0]],
+            r=av + [av[0]],
+            theta=RADAR_LABELS + [RADAR_LABELS[0]],
             name=comp,
-            mode="lines"+("+markers" if is_ew else ""),
-            line=dict(color=COMP_COLORS.get(comp,"#888"),
+            mode="lines" + ("+markers" if is_ew else ""),
+            line=dict(color=COMP_COLORS.get(comp, "#888"),
                       width=3.0 if is_ew else 1.5,
                       dash="solid" if is_ew else "dot"),
             fill="toself" if is_ew else None,
             fillcolor="rgba(75,0,130,0.10)" if is_ew else None,
-            marker=dict(size=7,color=COMP_COLORS.get(comp,"#888")) if is_ew else None,
+            marker=dict(size=7, color=COMP_COLORS.get(comp, "#888")) if is_ew else None,
+            hovertemplate=(
+                "<b>" + comp + "</b><br>%{theta}<br>"
+                "Score: %{r}/100<extra></extra>"
+            ),
         ))
-    fig_radar.update_layout(**bl(height=500,margin=dict(l=110,r=110,t=90,b=110),
-        title=dict(text="KPI Radar — Normalised Scores (0–100)",font=dict(size=14,color="#4B0082")),
-        polar=dict(
-            radialaxis=dict(range=[0,100],tickvals=[25,50,75,100],
-                            gridcolor="#EDE9F8",tickfont=dict(size=8),tickangle=45),
-            angularaxis=dict(tickfont=dict(size=9),rotation=90,direction="clockwise"),
+
+    fig_radar.update_layout(**bl(
+        height=520, margin=dict(l=110, r=110, t=100, b=120),
+        title=dict(
+            text=(
+                "KPI Radar — Absolute Performance Score (0–100)<br>"
+                "<sup style='font-size:11px;color:#6B7280'>"
+                "Each axis scored against an industry best-practice ceiling, "
+                "not against peer-group maximum</sup>"
+            ),
+            font=dict(size=14, color="#4B0082"),
         ),
-        legend=dict(orientation="h",y=-0.20,x=0.5,xanchor="center",font=dict(size=10)),
+        polar=dict(
+            radialaxis=dict(
+                range=[0, 100], tickvals=[25, 50, 75, 100],
+                gridcolor="#EDE9F8", tickfont=dict(size=8), tickangle=45,
+            ),
+            angularaxis=dict(
+                tickfont=dict(size=9), rotation=90, direction="clockwise",
+            ),
+        ),
+        legend=dict(orientation="h", y=-0.22, x=0.5, xanchor="center", font=dict(size=10)),
     ))
     st.plotly_chart(fig_radar, use_container_width=True)
+
+    # Scoring methodology callout — so stakeholders understand the chart
+    with st.expander("ℹ️ How are radar scores calculated? (click to read methodology)"):
+        st.markdown("""
+**Each axis uses an absolute ceiling, not peer-group ranking.**
+
+| KPI | ElectraWireless | Ceiling | Score |
+|---|---|---|---|
+| CO₂ Reduction | 10,000 t/yr | 20,000 t (large WPT target) | **50/100** |
+| E-Waste Prevented | 10,000 t/yr | 20,000 t (full cable elimination) | **50/100** |
+| Energy Efficiency | 82% | 100% (theoretical max) | **82/100** |
+| Safety Incident Reduction | 95% | 100% | **95/100** |
+| Green Market Coverage | 78% | 100% | **78/100** |
+| Team Diversity Index | 85% | 100% | **85/100** |
+| Disclosure Score | 70/100 | 100 (full GRI/SASB) | **70/100** |
+| AI Ethics Controls | 90% | 100% | **90/100** |
+| Community Programs | 4 | 8 (top-tier startup benchmark) | **50/100** |
+
+> **Why not 100% on every axis?** Because ElectraWireless is a seed-stage startup.
+> CO₂ & E-waste savings will scale with each deployment phase. Disclosure will reach
+> 100 when formal GRI/SASB reporting is published (planned post-Series A).
+> This radar shows honest current performance — strong, but with clear room to grow.
+        """)
+    st.markdown("---")
 
     st.markdown("---")
 
