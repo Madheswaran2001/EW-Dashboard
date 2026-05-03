@@ -119,9 +119,9 @@ if section == "⚡ Overview":
     """, unsafe_allow_html=True)
 
     c1, c2, c3 = st.columns(3)
-    with c1: st.metric("🌿 Environmental", f"{ew['E']} / 100", "+30 pts since 2022")
-    with c2: st.metric("🤝 Social",        f"{ew['S']} / 100", "+30 pts since 2022")
-    with c3: st.metric("🏛️ Governance",   f"{ew['G']} / 100", "+34 pts since 2022")
+    with c1: st.metric("🌿 Environmental", f"{ew['E']} / 100", "+40 pts since founding (Q1 2024)")
+    with c2: st.metric("🤝 Social",        f"{ew['S']} / 100", "+43 pts since founding (Q1 2024)")
+    with c3: st.metric("🏛️ Governance",   f"{ew['G']} / 100", "+46 pts since founding (Q1 2024)")
 
     st.markdown("---")
     st.markdown('<div class="section-title">Pillar Gauges</div>', unsafe_allow_html=True)
@@ -244,9 +244,10 @@ elif section == "🗺️ Materiality Map":
 # TREND LINES
 # ═════════════════════════════════════════════════════════════════════════════
 elif section == "📈 Trend Lines":
-    st.markdown('<div class="section-title">ESG Score Trend Lines — 2022 to 2026</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">ESG Score Trend Lines — Q1 2024 (Founded) to March 2026</div>', unsafe_allow_html=True)
     st.markdown(
-        '<div class="section-sub">ElectraWireless shows the steepest improvement trajectory across all three pillars.</div>',
+        '<div class="section-sub">ElectraWireless was founded in Q1 2024. These trend lines track ESG score growth '
+        'across six reporting periods from founding to today. Competitor lines cover the same window for fair comparison.</div>',
         unsafe_allow_html=True)
 
     selected_pillars = st.multiselect(
@@ -266,10 +267,11 @@ elif section == "📈 Trend Lines":
                 line=dict(color=pcolor,width=3), marker=dict(size=9),
                 fill="tozeroy", fillcolor=hex_rgba(pcolor,0.10),
             ))
-    fig_combined.update_layout(**bl(height=320,margin=dict(l=20,r=20,t=50,b=60),
-        title=dict(text="ElectraWireless — All Pillars Trend",font=dict(size=15,color="#4B0082")),
-        xaxis=dict(tickvals=YEARS,**GRID), yaxis=dict(range=[0,100],title="Score /100",**GRID),
-        legend=dict(orientation="h",y=-0.22)))
+    fig_combined.update_layout(**bl(height=340,margin=dict(l=20,r=20,t=50,b=80),
+        title=dict(text="ElectraWireless — All Pillars (Q1 2024 → Mar 2026)",font=dict(size=15,color="#4B0082")),
+        xaxis=dict(tickfont=dict(size=10), **GRID),
+        yaxis=dict(range=[0,100],title="Score /100",**GRID),
+        legend=dict(orientation="h",y=-0.28)))
     st.plotly_chart(fig_combined, use_container_width=True)
 
     st.markdown("---")
@@ -290,17 +292,19 @@ elif section == "📈 Trend Lines":
             }.items():
                 fig.add_trace(go.Scatter(x=YEARS,y=ESG_TRENDS[comp][pillar],name=comp,
                     mode="lines+markers",line=dict(color=col,width=lw,dash=dash),marker=dict(size=ms)))
-            fig.update_layout(**bl(height=300,margin=dict(l=20,r=20,t=50,b=70),
-                title=dict(text=f"{plabel} Score — EW vs. Competitors",font=dict(size=14,color="#4B0082")),
-                xaxis=dict(tickvals=YEARS,**GRID),yaxis=dict(range=[30,100],title="Score /100",**GRID),
-                legend=dict(orientation="h",y=-0.30,font=dict(size=11))))
+            fig.update_layout(**bl(height=320,margin=dict(l=20,r=20,t=50,b=90),
+                title=dict(text=f"{plabel} Score — EW vs. Competitors (since founding)",
+                           font=dict(size=14,color="#4B0082")),
+                xaxis=dict(tickfont=dict(size=10),**GRID),
+                yaxis=dict(range=[20,100],title="Score /100",**GRID),
+                legend=dict(orientation="h",y=-0.35,font=dict(size=11))))
             st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
     c1, c2, c3 = st.columns(3)
-    with c1: st.success("**+30pts Environmental** (52 → 82)\n\nCO₂ quantification, WPT efficiency milestones, university partnerships.")
-    with c2: st.info("**+30pts Social** (48 → 78)\n\nElly AI health, 35+ diverse hires, youth competitions in Belgium, HK, Australia.")
-    with c3: st.warning("**+34pts Governance** (40 → 74)\n\nUS registration, IPO roadmap, AI ethics framework, transparent seed funding.")
+    with c1: st.success("**+40pts Environmental** (42 → 82)\n\nQ1 2024 to March 2026. Driven by CO₂ data quantification, WPT efficiency milestones, and university partnerships.")
+    with c2: st.info("**+43pts Social** (35 → 78)\n\nQ1 2024 to March 2026. Elly AI health launch, 35+ multinational hires, youth innovation competitions across 3 continents.")
+    with c3: st.warning("**+46pts Governance** (28 → 74)\n\nQ1 2024 to March 2026. US company registration, seed funding disclosure, IPO roadmap published, AI ethics framework built.")
 
 
 # ═════════════════════════════════════════════════════════════════════════════
